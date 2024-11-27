@@ -21,14 +21,21 @@ record KioskFormatter() {
         }
     }
 
+    public static String formatList(int startIdx, String ...strs) {
+        return formatList(startIdx, List.of(strs));
+    }
+
     public static String formatList(List<?> list, String zeroPrompt) {
+        return formatList(1, list) + applyColor(" 0. ", Color.YELLOW) + applyColor(zeroPrompt, Color.PURPLE);
+    }
+
+    public static String formatList(int startIdx, List<?> list) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
-            String coloredNumber = applyColor(String.format("%2d. ", i + 1), Color.YELLOW);
+            String coloredNumber = applyColor(String.format("%2d. ", i + startIdx), Color.YELLOW);
             String coloredStr = applyColor(list.get(i).toString(), Color.BLUE);
             sb.append(String.format("%s%s\n", coloredNumber, coloredStr));
         }
-        sb.append(applyColor(" 0. ", Color.YELLOW)).append(applyColor(zeroPrompt, Color.PURPLE));
         return sb.toString();
     }
 
