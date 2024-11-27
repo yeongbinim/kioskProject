@@ -1,5 +1,6 @@
 import controller.Kiosk;
 import service.MenuService;
+import service.OrderService;
 import service.domain.Menu;
 import service.domain.MenuItem;
 
@@ -26,7 +27,8 @@ public class OrderApp {
                 new MenuItem("Vanilla Shake", 4.2, "고전적인 바닐라 쉐이크")
         );
         MenuService menuService = new MenuService(Burgers, Drinks, Desserts);
-        Kiosk kiosk = new Kiosk(menuService);
+        OrderService orderService = new OrderService();
+        Kiosk kiosk = new Kiosk(menuService, orderService);
 
         kiosk.start();
     }

@@ -11,6 +11,14 @@ public class MenuItem {
         this.description = description;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Double getValue() {
+        return value;
+    }
+
     @Override
     public String toString() {
         return String.format("%-20s | W %-4s | %s", name, value, description);
