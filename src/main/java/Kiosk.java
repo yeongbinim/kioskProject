@@ -13,48 +13,50 @@ public class Kiosk {
     public void start() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            printMenuItems();
-            if (!selectMenuItem(scanner)) {
+            System.out.print(getMenuItems());
+            System.out.print(" 0. 종료\n\n메뉴를 입력하세요: ");
+            int menuItemNumber = scanner.nextInt(); // 사용자로부터 메뉴 번호 입력받음
+            if (menuItemNumber == 0) { // 0 입력시 종료
+                System.out.println("키오스크를 종료합니다.");
                 break;
+            }
+            try {
+                System.out.println(getMenuItem(menuItemNumber));
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage()); // 잘못된 입력 처리 메시지 출력
+                continue;
             }
         }
         scanner.close();
     }
 
     /**
-     * 메뉴 아이템들을 화면에 출력합니다.
+     * 전체 메뉴 아이템 목록을 문자열 형태로 반환합니다.
      * 각 메뉴 아이템 옆에는 사용자가 선택할 수 있는 번호가 표시됩니다.
-     * 목록의 마지막에는 사용자가 주문을 종료할 수 있는 옵션도 함께 출력됩니다.
+     *
+     * @return 메뉴 아이템들의 목록을 문자열로 표시
      */
-    private void printMenuItems() {
+    private String getMenuItems() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < menuItemList.size(); i++) {
             sb.append(String.format("%2d. %s\n", i + 1, menuItemList.get(i)));
         }
-        sb.append(String.format("%2d. 종료\n\n", 0)); // 종료 옵션 추가
-        sb.append("메뉴를 입력하세요: "); // 사용자 입력 안내 메시지
-
-        System.out.println(sb);
+        return sb.toString();
     }
 
     /**
-     * 사용자로부터 메뉴 선택을 입력 받아 해당 메뉴의 상세 정보를 출력합니다.
+     * 사용자가 선택한 메뉴 번호에 해당하는 메뉴 아이템의 상세 정보를 반환합니다.
+     * 입력된 메뉴 번호가 범위를 벗어날 경우 예외를 발생시킵니다.
      *
-     * @param scanner 사용자 입력을 받기 위한 Scanner 객체
-     * @return 사용자가 주문 종료를 원할 때 false, 계속 주문을 원할 때 true 반환
+     * @param menuItemNumber 사용자가 입력한 메뉴 번호
+     * @return 선택된 메뉴 아이템의 정보 문자열
+     * @throws IllegalArgumentException 선택된 메뉴 번호가 유효 범위를 벗어날 경우 발생
      */
-    private boolean selectMenuItem(Scanner scanner) {
-        while (true) {
-            int menuNumber = scanner.nextInt();
-            if (menuNumber == 0) {
-                return false;
-            } else if (menuNumber > 0 && menuNumber <= menuItemList.size()) {
-                MenuItem menuItem = menuItemList.get(menuNumber - 1);
-                System.out.println(menuItem);
-                return true;
-            } else {
-                System.out.println("잘못된 메뉴 번호입니다. 다시 선택해주세요.\n");
-            }
+    private String getMenuItem(int menuItemNumber) {
+        if (menuItemNumber < 1 || menuItemNumber > menuItemList.size()) {
+            throw new IllegalArgumentException("잘못된 메뉴 번호입니다. 올바른 번호를 입력해주세요.");
         }
+        MenuItem menuItem = menuItemList.get(menuItemNumber - 1);
+        return menuItem.toString();
     }
 }
