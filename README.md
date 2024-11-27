@@ -1,5 +1,7 @@
 ## Kiosk Level 5
 
+(🛠 refactor) Kiosk는 사용자 입출력에 집중하고, 처리 로직은 MemberService에, 포매팅은 KioskFormatter로 책임 분리
+
 [[코드 보러 가기]](./src/main/java)
 
 ```
@@ -35,7 +37,7 @@ class Menu {
 }
 
 class Kiosk {
-- menuList: Menu[]
+- menuService: MenuService
 + start()
 }
 
