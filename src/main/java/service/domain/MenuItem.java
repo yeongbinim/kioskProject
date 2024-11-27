@@ -1,4 +1,4 @@
-package domain;
+package service.domain;
 
 public class MenuItem {
     private final String name;
