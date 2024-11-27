@@ -1,5 +1,7 @@
-import domain.Menu;
-import domain.MenuItem;
+import controller.Kiosk;
+import service.MenuService;
+import service.domain.Menu;
+import service.domain.MenuItem;
 
 public class OrderApp {
     public static void main(String[] args) {
@@ -23,7 +25,9 @@ public class OrderApp {
                 new MenuItem("Concrete Jungle", 6.4, "바나나, 피넛 버터와 함께 블렌드된 커스터드"),
                 new MenuItem("Vanilla Shake", 4.2, "고전적인 바닐라 쉐이크")
         );
-        Kiosk kiosk = new Kiosk(Burgers, Drinks, Desserts);
+        MenuService menuService = new MenuService(Burgers, Drinks, Desserts);
+        Kiosk kiosk = new Kiosk(menuService);
+
         kiosk.start();
     }
 }
